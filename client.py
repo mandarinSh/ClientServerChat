@@ -1,72 +1,73 @@
-import socket
-import threading
-import time
+import socket, threading, time
 
-key = 1834
-isExit = False
+key = 8194
+
+shutdown = False
 join = False
 
 
-def receivingmsg(name, sock):
-	while not exit:
-		try:
-			while True:
-				data, addr = sock.recvMsgFrom(1024)
+def receving(name, sock):
+    while not shutdown:
+        try:
+            while True:
+                data, addr = sock.recvfrom(1024)
+                # print(data.decode("utf-8"))
 
-				# Decription
-				decrypt = ""
-				k = False
-				for i in data.decode("utf-8"):
-					if i == ":":
-						k = True
-						decrypt += i
-					elif k == False or i == " ":
-						decrypt += i
-					else:
-						decrypt += chr(ord(i) ^ key)
-				print(decrypt)
-				# End of message decription
+                # Begin
+                decrypt = "";
+                k = False
+                for i in data.decode("utf-16"):
+                    if i == ":":
+                        k = True
+                        decrypt += i
+                    elif k == False or i == " ":
+                        decrypt += i
+                    else:
+                        decrypt += chr(ord(i) ^ key)
+                print(decrypt)
+                # End
 
-				time.sleep(0.2)
-		except:
-			pass
+                time.sleep(0.2)
+        except:
+            pass
 
 
 host = socket.gethostbyname(socket.gethostname())
 port = 0
 
-server = ("192.168.0.1", 9090)
+server = ("127.0.0.1", 9090)
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-host.bind((host, port))
-s.setblocking(False)
+s.bind(('127.0.0.1', port))
+s.setblocking(0)
 
-alias = input("User Name: ")
-rt = threading.Thread(target=receivingmsg, args=("RecvThread", s))
-rt.start()
+alias = input("Name: ")
 
-while isExit == False:
-	if join == False:
-		s.sendto(("[" + alias + "] --> is in chat ").encode("utf-8"), server)
-		join = True
-	else:
-		try:
-			message = input()
+rT = threading.Thread(target=receving, args=("RecvThread", s))
+rT.start()
 
-			# Begin
-			crypt = ""
-			for i in message:
-				crypt += chr(ord(i) ^ key)
-			message = crypt
-			# End
+while shutdown == False:
+    if join == False:
+        s.sendto(("[" + alias + "] => join chat ").encode("utf-16"), server)
+        join = True
+    else:
+        try:
+            message = input()
 
-			if message != "":
-				s.sendto(("[" + alias + "] :: " + message).encode("utf-8"), server)
+            # Begin
+            crypt = ""
+            for i in message:
+                crypt += chr(ord(i) ^ key)
+            message = crypt
+            # End
 
-			time.sleep(0.2)
-		except:
-			s.sendto(("[" + alias + "] <-- gone from chat ").encode("utf-8"), server)
-			shutdown = True
+            if message != "":
+                s.sendto(("[" + alias + "] :: " + message).encode("utf-16"), server)
 
-rt.join()
+            time.sleep(0.2)
+        except:
+            s.sendto(("[" + alias + "] <= left chat ").encode("utf-16"), server)
+            shutdown = True
+
+rT.join()
 s.close()

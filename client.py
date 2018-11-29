@@ -1,4 +1,6 @@
-import socket, threading, time
+import socket
+import threading
+import time
 
 key = 8194
 

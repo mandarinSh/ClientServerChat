@@ -1,4 +1,6 @@
-import socket, time, urllib.request
+import socket
+import time
+import urllib.request
 
 host = socket.gethostbyname(socket.gethostname())
 # host = 93.92.207.221

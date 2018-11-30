@@ -1,0 +1,32 @@
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+ScreenManagement:
+    transition: FadeTransition()
+    LoginScreen:
+    RegistrationScreen:
+    DialogScreen:
+
+
+<LoginScreen>:
+    name: 'login'
+
+    Button:
+        on_release: app.root.current = 'registration'
+        text: 'Registration Screen'
+        font_size: 50
+
+<RegistrationScreen>:
+    name: 'registration'
+
+    Button:
+        on_release: app.root.current = 'dialog'
+        text: 'Dialog Screen'
+        font_size: 50
+
+<DialogScreen>:
+    name: 'dialog'
+
+    Button:
+        on_release: app.root.current = 'login'
+        text: 'Back to Login Screen'
+        font_size: 50

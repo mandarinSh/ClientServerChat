@@ -1,0 +1,15 @@
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+<RegistrationScreen>:
+    canvas:
+        Color:
+            rgba: 0.07, 0.607, 0.745, 0.51
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    name: 'registration'
+
+    Button:
+        on_release: app.root.current = 'dialog'
+        text: 'Go to dialog screen'
+        font_size: 20

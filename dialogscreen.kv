@@ -1,0 +1,15 @@
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+<DialogScreen>:
+    canvas:
+        Color:
+            rgba: 0.07, 0.607, 0.745, 0.51
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    name: 'dialog'
+
+    Button:
+        on_release: app.root.current = 'login'
+        text: 'Back to Login Screen'
+        font_size: 20

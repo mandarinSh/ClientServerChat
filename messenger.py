@@ -7,7 +7,9 @@ from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 
 
 class LoginScreen(Screen):
-    pass
+
+    def goToGeristrationScreen(self):
+        pass
 
 
 class RegistrationScreen(Screen):
@@ -18,16 +20,22 @@ class DialogScreen(Screen):
     pass
 
 
-class ScreenManagement(ScreenManager):
-    pass
+# class ScreenManagement(ScreenManager):
+sm = ScreenManager()
+
+sm.add_widget(Screen(name='LoginScreen'))
+sm.add_widget(Screen(name='RegistrationScreen'))
+sm.add_widget(Screen(name='DialogScreen'))
+
+sm.current = 'LoginScreen'
 
 
-presentation = Builder.load_file("messenger.kv")
+Builder.load_file("messenger.kv")
 
 
 class MainApp(App):
     def build(self):
-        return presentation
+        return sm
 
 
 MainApp().run()
